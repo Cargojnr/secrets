@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/ceb8cfc409.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/media.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- <div id="brand-logo-container">
+        <h1 id="brand-logo">Secrets</h1>
+    </div>
+
+    <script>
+        window.addEventListener("load", function(){
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        hideBrandLogo();
+    });
+
+    window.addEventListener("beforeunload", function(){
+        showBrandLogo();
+    })
+
+    function showBrandLogo(){
+        // const brandLogo = document.getElementById("brand-logo-container");
+        document.getElementById("brand-logo-container").style.display = "flex";
+  }
+
+
+    function hideBrandLogo(){
+        document.getElementById("brand-logo-container").style.display = "none";
+    }
+    </script> -->
+
+
+<header>
+    <div class="container">
+        <div class="header">
+            <a href="/secrets" id="logo"><i class="fas fa-key fa-2x"></i></a>
+            <ul id="navbar">
+                <li class="navbar">
+                    <a href="/notifications">
+                        <i class="fas fa-bell fa-2x"></i>
+                        <span class="counter">0</span>
+                    </a>
+                </li>
+                <li class="navbar dropdown">
+                    <div class="hamburger" id="hamburger">
+                        <div class="bar" id="bar1"></div>
+                        <!-- <div class="bar" id="bar2"></div> -->
+                        <div class="bar" id="bar3"></div>
+                    </div> 
+                        <div id="menu" class="menu-hidden">
+                            <div class="container">
+                                <div class="menu">
+                                    <div class="menu-nav">
+                                        <!-- <div class="menu-logo">
+                                            <i class="fas fa-key fa-2x"></i>
+                                            <h4>Anonym</h4>
+                                        </div> -->
+                                        <ul class="pages">
+                                          <h4>Create a secret</h4>
+                                          <li><a href="/secrets">View secrets</a></li>
+                                          <li><a href="/submit">Share a secret</a></li>
+                                        </ul>
+                                        <ul class="account">
+                                           <h4><i class="fas fa-user"></i> &nbsp;Account</h4>
+                                           <li><a href="/logout" class="">Logout</a></li>
+                                           <li><a href="/notifications" class="">Notifcations</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="theme-switch">
+                                        <input type="checkbox" id="themeToggle" class="theme-toggle">
+                                        <label for="themeToggle" class="theme-toggle-label">
+                                            <span class="sun-icon">☀️</span>
+                                            <span class="moon-icon">🌙</span>
+                                        </label>
+                                     </div>
+                                    <hr>
+                                    <div class="menu-nav-alt">
+                                        <ul class="info">
+                                          <h4>Information</h4>
+                                          <li><a href="">About</a></li>
+                                          <li><a href="">Security</a></li>
+                                          <li><a href="">Privacy</a></li>
+                                          <li><a href="">Blog</a></li>
+                                        </ul>
+                                        <ul class="support">
+                                           <h4>Support</h4>
+                                           <li><a href="">FAQ</a></li>
+                                           <li><a href="">Contact</a></li>
+                                        </ul>
+                                    </div>
+                                    <ul class="socials">
+                                        <li><a href=""><i class="fab fa-facebook fa-2x"></i></a></li>
+                                        <li><a href=""><i class="fab fa-instagram fa-2x"></i></a></li>
+                                        <li><a href=""><i class="fab fa-linkedin fa-2x"></i></a></li>
+                                        <li><a href=""><i class="fab fa-github fa-2x"></i></a></li>
+                                       </ul>
+                                    <p class="menu-lang"><i class="fas fa-globe"></i> English</p>
+                                    <button id="close">Close</button>
+                                </div>
+                            </div>
+                        </div>  
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</header>
+
+<div id="notifications">
+    <div class="container">
+        <center>
+            <h2 class="display-3">Notifications</h2>
+            </center>
+        <div class="notifications">    
+                    <ul id="secrets">
+                        <% if (locals.comments || locals.secrets) { %>
+                            <% comments.forEach((comment) => { %>
+                            <li class="secret">
+                                <a class="message" href="secret/<%= comment.id %>">
+                                    <div class="card">
+                                        <h4>New comments from ~~ @anonym<%= comment.user_id %> ~~</h4>
+                                        <p><%= comment.comment.substring(0, 100) + " ..."  %><a style="background: none; font-size: 1rem; padding: 0; font-weight: bold;" href="secret/<%= comment.id %>">View comment</a></p>
+                                    </div>
+                                </a>
+                            </li>
+                            <%  }); %> 
+                            <% secrets.forEach((secret) => { %>
+                            <li class="secret">
+                                <a class="message" href="secret/<%= secret.id %>">
+                                    <div class="card">
+                                        <h4><%= heading %>~~ @anonym<%= secret.user_id %> ~~</h4>
+                                        <p><%= secret.secret.substring(0, 100) + " ..."  %><a style="background: none; font-size: 1rem; padding: 0; font-weight: bold;" href="secret/<%= secret.id %>">Read More</a></p>
+                                    </div>
+                                </a>
+                            </li>
+                            <%  }); %> 
+                       <% }  %>
+                       <li class="secret">
+                        <div class="card">
+                           <h4>Welcome Message</h4>
+                           <p>Welcome <%= username %> to the anonymous community. Your anonymous tag is ~@anonymous<%= userId %>~. Have fun.</p>
+                        </div>
+                      </li>
+                    </ul>
+               <hr>
+               <br>
+        </div>
+    </div>
+</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+         const commentButton = document.querySelectorAll("#commentButton");
+    const commentDropdown = document.getElementById("commentDropdown");
+    const postCommentButton = document.getElementById("postCommentButton");
+    const commentInput = document.getElementById("commentInput");
+    const commentDisplay = document.getElementById("comments");
+
+    // Toggle comment dropdown visibility
+    commentButton.forEach((button) => {
+        button.addEventListener("click", () => {
+        commentDropdown.classList.toggle("active");
+        commentInput.focus();
+      });
+    });
+
+    const header = document.querySelector('header');
+const nextSection = document.querySelector('body').querySelector('section:not(.active)');
+const logo = document.getElementById('logo')
+
+window.addEventListener('scroll', function(){
+    const scrolled = window.scrollY > 0;
+   if(scrolled){
+    let body = document.querySelector('body');
+    body.style.overflowY = 'scroll';
+    header.classList.add('scrolled');
+   } else {
+    header.classList.remove('scrolled');
+  }
+});
+
+   
+});
+    </script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

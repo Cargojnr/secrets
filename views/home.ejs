@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/ceb8cfc409.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/media.css">
+    <title>Document</title>
+    <style>
+    #logo {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+       }
+    </style>
+</head>
+<body>
+    <div id="brand-logo-container">
+        <!-- <h1 id="brand-logo">What's<span><i>Pay</i></span></h1> -->
+         <img src="/img/img_1127.PNG" alt="" id="brand-logo">
+    </div>
+
+    <script>
+        window.addEventListener("load", function(){
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        hideBrandLogo();
+    });
+
+    window.addEventListener("beforeunload", function(){
+        showBrandLogo();
+    })
+
+    function showBrandLogo(){
+        // const brandLogo = document.getElementById("brand-logo-container");
+        document.getElementById("brand-logo-container").style.display = "flex";
+  }
+
+
+    function hideBrandLogo(){
+        document.getElementById("brand-logo-container").style.display = "none";
+    }
+    </script>
+
+
+    <header>
+        <div class="container">
+            <div class="header">
+                <a href="/" id="logo"><i class="fas fa-key fa-2x"></i></a>
+                <ul id="navbar">
+                    <li class="navbar"><a href="/login">Sign In</a></li>
+                    <li class="navbar dropdown">
+                        <div class="hamburger" id="hamburger">
+                            <div class="bar" id="bar1"></div>
+                            <!-- <div class="bar" id="bar2"></div> -->
+                            <div class="bar" id="bar3"></div>
+                        </div> 
+                            <div id="menu" class="menu-hidden">
+                                <div class="container">
+                                    <div class="menu">
+                                        <div class="menu-nav">
+                                            <div class="menu-logo">
+                                                <i class="fas fa-key fa-2x"></i>
+                                                <h4>Anonym</h4>
+                                            </div>
+                                            <ul class="pages">
+                                              <h4>Create a secret</h4>
+                                              <li><a href="">View secrets</a></li>
+                                              <li><a href="">Share a secret</a></li>
+                                            </ul>
+                                            <ul class="account">
+                                               <h4><i class="fas fa-user"></i> &nbsp;Account</h4>
+                                               <li><a href="/login" class="">Login</a></li>
+                                               <li><a href="/register" class="">Register</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="theme-switch">
+                                            <input type="checkbox" id="themeToggle" class="theme-toggle">
+                                            <label for="themeToggle" class="theme-toggle-label">
+                                                <span class="sun-icon">☀️</span>
+                                                <span class="moon-icon">🌙</span>
+                                            </label>
+                                         </div>
+                                        <hr>
+                                        <div class="menu-nav-alt">
+                                            <ul class="info">
+                                              <h4>Information</h4>
+                                              <li><a href="">About</a></li>
+                                              <li><a href="">Security</a></li>
+                                              <li><a href="">Privacy</a></li>
+                                              <li><a href="">Blog</a></li>
+                                            </ul>
+                                            <ul class="support">
+                                               <h4>Support</h4>
+                                               <li><a href="">FAQ</a></li>
+                                               <li><a href="">Contact</a></li>
+                                            </ul>
+                                        </div>
+                                        <p class="menu-lang"><i class="fas fa-globe"></i> English</p>
+                                        <button id="close">Close</button>
+                                    </div>
+                                </div>
+                            </div>  
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <div class="hero">
+                    <i class="fas fa-key fa-7x"></i>
+                    <h1 class="display-3">Share a Secret</h1>
+                    <p class="lead">...anonymously!. Dont't keep your secrets, share them anonymously!</p>
+                    <div class="form-container">
+                        <form action="/register" method="POST" id="register">
+                            <div class="form-group">
+                                <label for="username">Create a Username</label> 
+                                <input type="username" name="username" class="form-control" placeholder="">
+                                <% if (locals.message) { %>
+                                    <p style="color: red; font-style: italic;"><%= message %></p>
+                                <% } %>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label> 
+                                <input type="email" name="email" class="form-control" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label> 
+                                <input type="password" name="password" class="form-control" placeholder="">
+                            </div>
+                            <button type="submit" class="btn btn-dark">Register</button>
+                        <div class="login-footer">
+                            <!-- <p>No Account? <a href="/register">Sign Up Now!</a></p>
+                            <p>Forgot Passord? <a href="/reset">Reset Password</a></p> -->
+                        </div>
+                    </div>
+                    <!-- <a href="/register" class="btn btn-light btn-lg" role="button">Register</a> -->
+                </div>
+            </div>
+        </section>
+
+        <section id="about-info">
+          <div class="container">
+            <div class="about-info">
+                <h2 class="m-head">Share secrets anonymously,</h2>
+                <h2 class="m-head">Read secrets anonymously</h2>
+                <p class="lead">Share your dark secrets with other anonymous users. The perfect way to connect with 100% anonymity </p>
+                <ul>
+                    <li>
+                        <div class="about-card">
+                            <p class="number">1</p>
+                            <i class="fas fa-file-pen fa-6x icon"></i>
+                            <h4>Write</h4>
+                            <p class="text">Compose your secrets to share anonymously</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="about-card">
+                            <p class="number">2</p>
+                            <i class="fas fa-share-from-square fa-6x icon"></i>
+                            <h4>Share</h4>
+                            <p class="text">Share secrets in the anonymous world</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="about-card">
+                            <p class="number">3</p>
+                            <i class="fas fa-user-secret fa-6x icon"></i>
+                            <h4>Anonymous</h4>
+                            <p class="text">Once secret is shared. User becomes anonymous</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="security-info">
+            <div class="container">
+                <div class="security-info">
+                    <div class="text">
+                        <h2 class="m-head">End-to-End Encryption</h2>
+                        <p class="lead">We encrypt your information on your device. The encryption key is never stored where anyone can find it not even our team of developers. Without the key, nobody, including us will ever be able to decrypt your information</p>
+                       <a href="" class="home-link"><i class="fas fa-arrow-right"></i> LEARN MORE ABOUT SECURITY</a> 
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="anonymous">
+            <div class="container">
+                <div class="anonymous">
+                    <img src="/img/iPhone-13-PRO-localhost.png" alt="">
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="container">
+                <div class="faq">
+                    <h2 class="m-head">FAQ</h2>
+                    <p class="lead">Frequently asked questions.</p>
+                    <ul id="question">
+                        <li>
+                            <div>
+                                <p>Why should i use this service?</p>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>How secure is this service?</p>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Who is it for?</p>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Can i get notified when a new secret is shared?</p>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p>Can other anonym users save my secret?</p>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <a href="" class="home-link"><i class="fas fa-arrow-right"></i> READ MORE ON FAQ PAGE</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- <div class="jumbotron centered">
+        <div class="container">
+                <i class="fas fa-key fa-6x"></i>
+                <h1 class="display-3">Anonymous Secret</h1>
+                <p class="lead">Dont't keep your secrets, share them anonymously!</p>
+                <hr>
+                <a href="/register" class="btn btn-light btn-lg" role="button">Register</a>
+                <a href="/login" class="btn btn-dark btn-lg" role="button">Login</a>
+        </div>
+    </div> -->
+
+    <footer>
+        <div class="container">
+            <div class="footer">
+                <div class="footer-flex">
+                    <div class="footer-logo">
+                     <i class="fas fa-key fa-2x"></i>
+                     <h4>Anonym</h4>
+                    </div>
+                    <ul class="footer-child">
+                     <h4>Secrets</h4>
+                     <li><a href="">Create secrets</a></li>
+                     <li><a href="">Share secrete</a></li>
+                     <li><a href="">View secrets</a></li>
+                     <li><a href=""></a></li>
+                    </ul>
+
+                    <ul class="footer-child">
+                     <h4>Information</h4>
+                     <li><a href="">About</a></li>
+                     <li><a href="">Security</a></li>
+                     <li><a href="">Privacy</a></li>
+                     <li><a href="">Blog</a></li>
+                    </ul>
+
+                    <ul class="footer-child">
+                     <h4>Help</h4>
+                     <li><a href="">FAQ</a></li>
+                     <li><a href="">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <center>
+                   <p class="viewed">Secrets <span style="color: #999;">created | veiwed: 0</span></p>
+                </center> 
+                <ul class="socials">
+                 <li><a href=""><i class="fab fa-facebook fa-2x"></i></a></li>
+                 <li><a href=""><i class="fab fa-instagram fa-2x"></i></a></li>
+                 <li><a href=""><i class="fab fa-linkedin fa-2x"></i></a></li>
+                 <li><a href=""><i class="fab fa-github fa-2x"></i></a></li>
+                </ul>
+                <p class="footer-text">
+                  <a href="">Anonym</a> lets you share secrets anonymously online, End-to-End encrypted. One time.
+                  Keep anonymous secrets out of email, Whatsapp, Telegram or any other communication channel. Here 
+                  you are 100% hidden to users as your privacy is our priority.
+                </p>
+                <ul class="footer-links">
+                  <li>&copy; <%= new Date().getFullYear() %></li>
+                  <li><a href="">Privacy Policy</a></li>
+                  <li><a href="">Cookie Policy</a></li>
+                  <li>Status</li>
+                </ul>
+                <p class="lang">English</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            const header = document.querySelector('header');
+    const nextSection = document.querySelector('body').querySelector('section:not(.active)');
+    const logo = document.getElementById('logo')
+    
+    window.addEventListener('scroll', function(){
+        const scrolled = window.scrollY > 0;
+       if(scrolled){
+        let body = document.querySelector('body');
+        body.style.overflowY = 'scroll';
+        header.classList.add('scrolled');
+        logo.style.opacity = 1;
+       } else {
+        header.classList.remove('scrolled');
+        logo.style.opacity = 0;
+      }
+    });
+
+    const aboutInfoSection = document.querySelector('#about-info');
+    const headers = document.querySelectorAll(".m-head");
+
+    function typeWriter(text, element, delay = 100) {
+        let i = 0;
+        function type() {
+            if(i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, delay);
+            }
+        }
+        type();
+    }
+
+    function handleIntersect(entries) {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                let delay = 0;
+                headers.forEach((header, index) => {
+                    const text = header.textContent;
+                    header.textContent = "";
+                   setTimeout(() => {
+                    typeWriter(text, header, 100);
+                   }, delay);
+                   delay += text.length * 100 + 500;
+                });
+                observer.disconnect();
+            }
+        });
+    }
+
+    const observer = new IntersectionObserver(handleIntersect, {threshold: 0.5});
+
+    observer.observe(aboutInfoSection);
+        })
+       
+    </script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
