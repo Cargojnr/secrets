@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/ceb8cfc409.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="/styles/media.css" />
+    <link rel="stylesheet" href="/styles/new.css" />
+    <link rel="stylesheet" href="/styles/random.css" />
+    
+    <style></style>
+  </head>
+  <body data-theme="<%= theme %>" data-mode="<%= mode %>">
+    <div id="brand-logo-container">
+      <h1 id="brand-logo">Anonym</h1>
+    </div>
+
+    <script>
+      window.addEventListener("load", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        hideBrandLogo();
+      });
+
+      window.addEventListener("beforeunload", function () {
+        showBrandLogo();
+      });
+
+      function showBrandLogo() {
+        // const brandLogo = document.getElementById("brand-logo-container");
+        document.getElementById("brand-logo-container").style.display = "flex";
+      }
+
+      function hideBrandLogo() {
+        document.getElementById("brand-logo-container").style.display = "none";
+      }
+    </script>
+
+    <header>
+      <div class="container">
+        <div class="header">
+          <a href="/dashboard" id="logo"><i class="fas fa-key fa-2x"></i></a>
+          <ul id="navbar">
+            <li class="navbar">
+              <a href="/notifications">
+                <i class="fas fa-bell fa-2x"></i>
+                <span class="counter">0</span>
+              </a>
+            </li>
+            <li class="navbar dropdown">
+              <div class="hamburger" id="hamburger">
+                <div class="bar" id="bar1"></div>
+                <!-- <div class="bar" id="bar2"></div> -->
+                <div class="bar" id="bar3"></div>
+              </div>
+              <div id="menu" class="menu-hidden">
+                <div class="container">
+                  <div class="menu">
+                    <div class="menu-nav">
+                      <!-- <div class="menu-logo">
+                                            <i class="fas fa-key fa-2x"></i>
+                                            <h4>bAnonym</h4>
+                                        </div> -->
+                      <ul class="pages">
+                        <h4>Create a secret</h4>
+                        <li><a href="/feeds">View secrets</a></li>
+                        <li><a href="/submit">Share a secret</a></li>
+                      </ul>
+                      <ul class="account">
+                        <h4>Account</h4>
+                        <li>
+                          <a href="/notifications" class="">Notifcations</a>
+                        </li>
+                        <li>
+                          <a href="/logout" class=""
+                            >Logout <i class="fas fa-right-from-bracket"></i
+                          ></a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="theme-switch">
+                      <input
+                        type="checkbox"
+                        id="themeToggle"
+                        class="theme-toggle"
+                        onchange="toggleMode()"
+                      />
+                      <label for="themeToggle" class="theme-toggle-label">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                      </label>
+                    </div>
+
+                    <div id="color">
+                      <p>Select Mood/theme:</p>
+                      <form class="color" method="post">
+                        <button
+                          name="color"
+                          id="cyberpunk"
+                          value="cyberpunk"
+                          formaction="/change"
+                          onclick="setTheme('cyberpunk')"
+                        ></button>
+                        <label for="cyberpunk"
+                          ><span class="cyberpunk"></span
+                        ></label>
+
+                        <button
+                          name="color"
+                          id="relaxing"
+                          value="relaxing"
+                          formaction="/change"
+                          onclick="setTheme('relaxing')"
+                        ></button>
+                        <label for="relaxing"
+                          ><span class="relaxing"></span
+                        ></label>
+
+                        <!-- <input type="radio" name="color" id="yellow" value="yellow" />
+                                          <label for="yellow"><span class="yellow"></span></label> -->
+
+                        <button
+                          name="color"
+                          id="high-contrast"
+                          value="high-contrast"
+                          formaction="/change"
+                          onclick="setTheme('high-contrast')"
+                        >
+                          <label for="high-contrast"
+                            ><span class="high-contrast"></span
+                          ></label>
+                        </button>
+
+                        <!-- <input  name="color" id="orange" value="orange" formaction="/change" ></button>
+                                          <label for="orange"><span class="orange"></span></label> -->
+
+                        <button
+                          name="color"
+                          id="gradient-glow"
+                          value="gradient-glow"
+                          formaction="/change"
+                          onclick="setTheme('gradient-glow')"
+                        >
+                          <label for="gradient-glow"
+                            ><span class="gradient-glow"></span
+                          ></label>
+                        </button>
+
+                        <button
+                          name="color"
+                          id="monochrome"
+                          value="monochrome"
+                          formaction="/change"
+                          onclick="setTheme('monochrome')"
+                        >
+                          <label for="monochrome"
+                            ><span class="monochrome"></span
+                          ></label>
+                        </button>
+
+                        <button
+                          name="color"
+                          id="retro"
+                          value="retro"
+                          formaction="/change"
+                          onclick="setTheme('retro')"
+                        >
+                          <label for="retro"><span class="retro"></span></label>
+                        </button>
+
+                        <button
+                          name="color"
+                          id="warm-sunset"
+                          value="warm-sunset"
+                          formaction="/change"
+                          onclick="setTheme('warm-sunset')"
+                        >
+                          <label for="warm-sunset"
+                            ><span class="warm-sunset"></span
+                          ></label>
+                        </button>
+                      </form>
+                    </div>
+
+                    <ul class="socials">
+                      <li>
+                        <a href=""><i class="fab fa-facebook fa-2x"></i></a>
+                      </li>
+                      <li>
+                        <a href=""><i class="fab fa-instagram fa-2x"></i></a>
+                      </li>
+                      <li>
+                        <a href=""><i class="fab fa-linkedin fa-2x"></i></a>
+                      </li>
+                      <li>
+                        <a href=""><i class="fab fa-github fa-2x"></i></a>
+                      </li>
+                    </ul>
+                    <hr />
+                    <div class="menu-nav-alt">
+                      <ul class="info">
+                        <h4>Information</h4>
+                        <li><a href="">About</a></li>
+                        <li><a href="">Security</a></li>
+                        <li><a href="">Privacy</a></li>
+                        <li><a href="">Blog</a></li>
+                      </ul>
+                      <ul class="support">
+                        <h4>Support</h4>
+                        <li><a href="">FAQ</a></li>
+                        <li><a href="">Contact</a></li>
+                        <li><a href="/feedback">Reviews</a></li>
+                      </ul>
+                    </div>
+                    <p class="menu-lang">
+                      <i class="fas fa-globe"></i> English
+                    </p>
+                    <button id="close">Close</button>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <div id="milestone-badge" class="hidden">🎉 10 Reactions! 🎉</div>
+
+    <div id="announcement-overlay" class="hidden">
+      <div class="trumpet-animation"></div>
+      <div class="overlay-content" text-align="center">
+        <center>
+          <h2>Announcement! 🎇🎆</h2>
+          <h4>Top Most Discussed content🏆🏆🏆</h4>
+          <!-- <p id="pin-secret"></p> -->
+          <small id="posted-by"></small>
+          <div id="countdown-timer">5</div>
+        </center>
+      </div>
+      <button id="close-announcement" class="btn btn-dark btn-lg">Close</button>
+    </div>
+
+    <!-- Content of each page will be injected here -->
+
+    <!-- Notifications Container -->
+    <div
+      id="notification"
+      style="position: fixed; bottom: 10px; left: 10px; z-index: 1000"
+    ></div>
+
+    <script>
+        const currentUserId = "<%= userId %>";
+      const socket = io({ query: { userId: currentUserId } });
+      const counter = document.querySelector(".counter");
+
+      // Handle new notifications
+      socket.on("new-notification", (data) => {
+        // Increment the notification counter
+        const currentCount = parseInt(counter.textContent) || 0;
+        counter.textContent = currentCount + 1;
+
+        const notificationsDiv = document.getElementById("notification");
+        const notification = document.createElement("div");
+        notification.className = "notification";
+
+        // Display a notification if it's a "secret" type
+        if (data.type === "secret") {
+          notification.innerText = `New secret shared by ~~@anonym${data.data.userId}~~: "${data.data.secret}"`;
+        } else if (data.type === "selected") {
+          notification.innerText = `~~@anonym${data.data.userId}~~ Your secret is the top most discussed for the Day...... Keep it up!"`;
+          notificationsDiv.style.textAlign = "center"
+        } else if (data.type === "reaction") {
+          const { reaction, count, milestone } = data.data;
+          notification.innerText =
+            `Your secret received a new "${reaction}" reaction! Total: ${count}.`
+        } else if(data.type === "top-secret"){
+          notification.innerText = `Most discussed secret goes to ~~@anonym${data.data.userId}~~"`;
+        }
+
+        notificationsDiv.appendChild(notification);
+
+        // Automatically remove the notification after 5 seconds
+        setTimeout(() => {
+          notification.remove();
+        }, 5000);
+
+      });
+    </script>
+
+    <script>
+      const showAnnouncement = (secret) => {
+        const overlay = document.getElementById("announcement-overlay");
+        // const secretText = document.getElementById("pin-secret");
+        const postedBy = document.getElementById("posted-by");
+        const countdownTimer = document.getElementById("countdown-timer");
+        const closeButton = document.getElementById("close-announcement");
+
+        // secretText.textContent = `"${secret.secret}"`;
+        postedBy.textContent = `Goes to ~~@anonym${secret.user_id}~~`;
+
+        let countdown = 5;
+        const countdownInterval = setInterval(() => {
+          countdown -= 1;
+          countdownTimer.textContent = countdown;
+
+          if (countdown === 0) {
+            clearInterval(countdownInterval);
+            setTimeout(() => {
+              overlay.classList.add("hidden");
+              pinSecret(secret);
+            }, 1000);
+          }
+        }, 1000);
+
+        overlay.classList.remove("hidden");
+
+        closeButton.addEventListener("click", () => {
+          overlay.classList.add("hidden");
+          pinSecret(secret);
+        });
+      };
+    </script>
+
+    <script>
+      const reactToSecret = async (secretId, type) => {
+        try {
+          const response = await fetch(`/secrets/${secretId}/react`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ type }),
+          });
+
+          const data = await response.json();
+          console.log(data)
+
+          if (data.success) {
+            // Update the reactions count on the UI
+            const secretCard = document.querySelector(
+              `[data-id="${secretId}"]`
+            );
+            const reactionCount = secretCard.querySelector(
+              `.reaction-btn[data-type="${type}"] .reaction-count`
+            );
+            reactionCount.textContent = data.reactions[type] || 0;
+
+            // Trigger confetti if milestone is reached
+            if (data.milestone) {
+              triggerConfetti();
+              showMilestoneBadge();
+            }
+          } else {
+            console.error(data.error);
+          }
+        } catch (error) {
+          console.error("Error reacting:", error);
+        }
+      };
+
+      function triggerConfetti() {
+        confetti({
+          particleCount: 100, // Number of confetti particles
+          spread: 70, // Spread angle
+          origin: { y: 0.6 }, // Start position
+          colors: ["#ff6f61", "#ffcc00", "#66ff99", "#6699ff", "#ff99cc"], // Custom colors
+        });
+      }
+
+      function showMilestoneBadge() {
+        const badge = document.getElementById("milestone-badge");
+        badge.classList.remove("hidden");
+
+        setTimeout(() => {
+          badge.classList.add("hidden");
+        }, 5000); // 5 seconds
+      }
+    </script>
+
+    <script>
+      document.body.classList.add("theme-<%= theme %>");
+    </script>
+  </body>
+</html>

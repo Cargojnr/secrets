@@ -16,17 +16,20 @@ menu.classList.toggle('menu-visible');
 })
 
 
-const toggleSwitch = document.getElementById('themeToggle');
-const currentTheme = localStorage.getItem('theme') || 'light';
-const pageMockup = document.querySelector(".anonymous img");
+// const toggleSwitch = document.getElementById('themeToggle');
+// const currentTheme = localStorage.getItem('theme') || 'light';
 
-function updateImageSrc(theme) {
-   if(theme === 'dark'){
-     pageMockup.src = "/img/iPhone-13-PRO-localhost (1).png"
-   } else {
-     pageMockup.src = "/img/iPhone-13-PRO-localhost.png"
-   }
-}
+// function updateImageSrc(theme) {
+//   const pageMockup = document.querySelector(".anonymous img");
+//   if(pageMockup) {
+//     if(theme === 'dark'){
+//       pageMockup.src = "/img/iPhone-13-PRO-localhost (2).png"
+//     } else {
+//       pageMockup.src = "/img/iPhone-13-PRO-localhost.png"
+//     }
+//   } 
+// }
+
 
 // if(currentTheme === 'dark') {
 //   document.documentElement.setAttribute('data-theme', 'dark');
@@ -36,49 +39,67 @@ function updateImageSrc(theme) {
 
 // }
 
-document.documentElement.setAttribute('data-theme', currentTheme);
-toggleSwitch.checked = currentTheme === 'dark';
-updateImageSrc(currentTheme);
+// document.documentElement.setAttribute('data-theme', currentTheme);
+// toggleSwitch.checked = currentTheme === 'dark';
+// updateImageSrc(currentTheme);
 
 
-toggleSwitch.addEventListener('change', function(){
-   if(this.checked) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('theme', 'dark');
-    updateImageSrc('dark');
+// toggleSwitch.addEventListener('change', function(){
+//    if(this.checked) {
+//     document.documentElement.setAttribute('data-theme', 'dark');
+//     localStorage.setItem('theme', 'dark');
+//     updateImageSrc('dark');
    
-   } else {
-    document.documentElement.setAttribute('data-theme', 'light');
-    localStorage.setItem('theme', 'light');
-    updateImageSrc('light');
-   }
-});
+//    } else {
+//     document.documentElement.setAttribute('data-theme', 'light');
+//     localStorage.setItem('theme', 'light');
+//     updateImageSrc('light');
+//    }
+// });
 
-const notificationCounter = document.querySelector('.navbar .counter');
 
-function incrementNotificationCounter() {
-  let currentCount = parseInt(notificationCounter.textContent);
-   notificationCounter.textContent = currentCount + 1;
-}
 
 function showNotification(message) {
   const audio = new Audio("/sounds/system-notification-199277.mp3")
   audio.play();
 
 if(Notification.permission === 'granted'){
-  new Notification('New Notification', {
+  new Notification('Anonymcret', {
     body: message,
-    icon: ''
-  })
+    icon: '/img/iPhone-13-PRO-localhost.png'
+  });
+ } else if(Notification.permission === 'default'){
+  Notification.requestPermission().then(permission => {
+    if(permission === 'granted'){
+      new Notification('Anonymcret', {
+        body: message,
+        icon: '/img/iPhone-13-PRO-localhost.png'
+      });
+    }
+  });
  }
 }
 
- if(Notification.permission !== 'granted') {
-  Notification.requestPermission();
- }
+
+
+//  if(Notification.permission !== 'granted') {
+//   Notification.requestPermission();
+//  }
+
+//  function incrementNotificationCounter() {
+//   if(Notification){
+//     let count = 0;
+//     notificationCounter.textContent = count++
+//     localStorage.setItem('textContent', count++)
+//   } else {
+//     notificationCounter.textContent = 0
+//     localStorage.setItem('textContent', notificationCounter.textContent) 
+//   }
+// }
+
+
 
  function recieveNotification(data){
-  incrementNotificationCounter();
   showNotification(data.message);
  }
 
