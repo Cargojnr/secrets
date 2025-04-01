@@ -5,12 +5,12 @@ body {
 }
 #chat-box {
     position: relative;
-      height: 90vh;
+      height: 80vh;
        margin: 2rem auto;
    }
 
    #messages {
-    height: 87% !important;
+    height: 80% !important;
    }
    
    .message-button {

@@ -1,4 +1,47 @@
 @media (max-width: 600px) {
+
+  #recordContainer {
+    height: 32vh !important;
+    text-align: center;
+    /* background: rgba(255, 255, 255, 0.1); */
+    padding: 30px;
+    margin: 1rem auto;
+}
+
+#recordContainer h1 {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.mic-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 18px;
+}
+.or {
+  gap: 10px !important;
+}
+
+.or h4 {
+  font-size: 15px !important;
+}
+
+
+#actionButtons {
+  display: none;
+  margin-top: 10px !important;
+}
+
+#actionButtons button{
+  padding: .5rem .75rem !important;
+}
+
+audio {
+  margin-top: 10px !important; 
+  width: 100%;
+}
+
   #tutorial-overlay {
     padding: .75rem .5rem !important;
   }
@@ -189,7 +232,8 @@ button#next-step {
     bottom: 3rem;
   }
 
-  .trending #secrets{
+  .trending #secrets
+  .related #secrets{
    gap: 5px;
   }
 
@@ -219,8 +263,12 @@ button#next-step {
 
   #update {
     position: absolute;
-    top: .25rem;
+    top: -1.1rem !important;
     right: 1rem;
+  }
+
+  #update button i {
+    padding: 5px;
   }
 
   .edit {
@@ -289,20 +337,26 @@ button#next-step {
   }
 
   #dashboard .btn{
-    display: flex;
-    justify-content: center;
-    /* align-self: center; */
     margin: .5rem auto;   
-    padding: .75rem 1.2rem;
     font-size: 1.2rem;
-     /* position: fixed;
-    bottom: 5rem;
-    right: 40%; */
-    /* width: auto; */
+    display: block;
+  }
+
+
+  #dashboard a {
+    padding: .75rem 1rem ;
   }
 
   .card {
     margin-bottom: 1rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
+  }
+
+  .tag {
+    border-radius: 30px 30px 0 30px;
+    padding: .7rem;
+    font-size: .7rem;
   }
 
   #update {
@@ -413,6 +467,16 @@ button#next-step {
   font-size: 12px;
 }
 
+.reactions {
+  margin-bottom: .5rem;
+}
+
+.reaction-btn {
+  font-size: 12px;
+  padding: 0.2rem;
+}
+
+
   /* .comment {
     font-size: .9rem;
   } */
@@ -466,7 +530,14 @@ button#next-step {
 
   #share textarea {
     font-size: 1rem;
+    margin-bottom: .75rem;
   }
+
+
+  .category-section {
+    margin-bottom: 1rem;
+  }
+  
 
   .category-dropdown {
     font-size: 0.9rem;

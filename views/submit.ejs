@@ -1,19 +1,19 @@
 <%- include('layout') %>
     <style>
-
         #recordContainer {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            height: 50vh;
+            height: 40vh;
             text-align: center;
             /* background: rgba(255, 255, 255, 0.1); */
             padding: 30px;
             border-radius: 15px;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin: 1rem auto;
         }
 
         h1 {
@@ -21,8 +21,26 @@
             font-size: 24px;
         }
 
+        .or {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 20px;
+        }
+
+        .or h4 {
+            font-size: 20px;
+        }
+
+        .or hr {
+            opacity: 0.3;
+            width: 100%;
+        }
+
         .mic-button {
             background: #ff5f6d;
+            /* background: var(--secondary-color); */
             border: none;
             color: white;
             width: 80px;
@@ -46,9 +64,11 @@
             0% {
                 box-shadow: 0 0 10px #ff5f6d, 0 0 20px #ff5f6d, 0 0 30px #ff5f6d;
             }
+
             50% {
                 box-shadow: 0 0 20px #ff5f6d, 0 0 30px #ff5f6d, 0 0 40px #ff5f6d;
             }
+
             100% {
                 box-shadow: 0 0 10px #ff5f6d, 0 0 20px #ff5f6d, 0 0 30px #ff5f6d;
             }
@@ -59,17 +79,24 @@
             margin-top: 20px;
         }
 
+        #actionButtons button {
+            background: var(--primary-color);
+            color: var(--text-color);
+            padding: .5rem .75rem;
+            border-radius: 5px;
+            border: none;
+        }
+
         audio {
             margin-top: 20px;
             width: 100%;
             max-width: 600px;
         }
-
     </style>
     <div class="container">
         <!-- <i class="fas fa-key fa-6x"></i> -->
-        <h1 class="display-3">Secrets</h1>
-        <p class="secret-text">Don't keep your secrets, share them anonymously!</p>
+        <h1 class="display-3">Share your Gossips</h1>
+        <p class="secret-text">Don't keep your Gists, share them anonymously!</p>
 
         <% if (locals.secret) { %>
             <div class="form-container">
@@ -106,12 +133,6 @@
 
                 <div class="form-container">
                     <form method="POST" action="/share" id="share">
-
-                        <div class="form-group">
-                            <textarea class="form-control" id="input" name="secret"
-                                placeholder="Hey <%= username %> What's on your mind today!"></textarea>
-                        </div>
-
                         <div class="form-group category-section">
                             <label for="category" class="category-label">Choose a category</label>
                             <select id="category" onchange="changeBg(event)" name="category"
@@ -126,29 +147,43 @@
                             </select>
                         </div>
 
+
+                        <div class="form-group">
+                            <textarea class="form-control" id="input" name="secret"
+                                placeholder="Hey <%= username %> What's on your mind today!"></textarea>
+                        </div>
+
+
                         <button type="submit" id="submit" class="btn btn-dark secret-btn">
                             <%= submit %>
                         </button>
 
                     </form>
 
+                    <div class="or">
+                        <hr>
+                        <h4>OR</h4>
+                        <hr>
+                    </div>
 
                     <div id="recordContainer">
                         <h1>Record a Voice Note</h1>
-                        <button id="micButton" class="mic-button" tabindex="0"><i class="fas fa-microphone"></i></button>
-                
+                        <button id="micButton" class="mic-button" tabindex="0"><i
+                                class="fas fa-microphone"></i></button>
+
                         <!-- Canvas for waveform visualization -->
                         <!-- <canvas id="waveform"></canvas> -->
-                
+
                         <!-- Action buttons (discard/share) -->
                         <div id="actionButtons">
                             <button id="discardRecording">Discard</button>
                             <button id="submitRecording">Share</button>
                         </div>
-                
+
                         <!-- Audio player for playback after recording -->
                         <audio id="audioPlayer" controls style="display:none;"></audio>
                     </div>
+
 
 
                     <div id="notification"
@@ -157,44 +192,44 @@
 
                     <script>
 
-                      // Handle form submission via Fetch API
-document.getElementById('share').addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent form's default redirect behavior
+                        // Handle form submission via Fetch API
+                        document.getElementById('share').addEventListener('submit', async (event) => {
+                            event.preventDefault(); // Prevent form's default redirect behavior
 
-    const secretInput = document.getElementById('input');
-    const categoryDropdown = document.getElementById('category');
-    const secret = secretInput.value;
-    const category = categoryDropdown.value;
+                            const secretInput = document.getElementById('input');
+                            const categoryDropdown = document.getElementById('category');
+                            const secret = secretInput.value;
+                            const category = categoryDropdown.value;
 
-    if (!category) {
-        alert('Please select a category before sharing!');
-        return;
-    }
+                            if (!category) {
+                                alert('Please select a category before sharing!');
+                                return;
+                            }
 
-    try {
-        const response = await fetch('/share', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                secret, 
-                category, 
-                contentType: 'text' // Indicate that this is a text submission
-            }),
-        });
+                            try {
+                                const response = await fetch('/share', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        secret,
+                                        category,
+                                        contentType: 'text' // Indicate that this is a text submission
+                                    }),
+                                });
 
-        const data = await response.json();
+                                const data = await response.json();
 
-        if (data.success) {
-            alert('Secret shared successfully!');
-            secretInput.value = ''; // Clear the input field
-        } else {
-            alert('Failed to share the secret. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again later.');
-    }
-});
+                                if (data.success) {
+                                    alert('Secret shared successfully!');
+                                    secretInput.value = ''; // Clear the input field
+                                } else {
+                                    alert('Failed to share the secret. Please try again.');
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                                alert('An error occurred. Please try again later.');
+                            }
+                        });
                     </script>
                 </div>
                 <audio id="post-sound" src="/sounds/whoosh-6316.mp3" preload="auto"></audio>
@@ -254,206 +289,153 @@ document.getElementById('share').addEventListener('submit', async (event) => {
         }
 
     </script>
-<script>
-    // Prevent scrolling while holding the microphone button
-document.body.addEventListener('touchmove', (e) => {
-  if (isRecording) {
-    e.preventDefault();
-  }
-}, { passive: false });
+    <script>
+        // Prevent scrolling while holding the microphone button
+        document.body.addEventListener('touchmove', (e) => {
+            if (isRecording) {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
-    let mediaRecorder;
-    let audioChunks = [];
-    let audioBlob;
-    let audioUrl;
-    // let analyser, canvas, canvasCtx, bufferLength, dataArray;
-    let isRecording = false;
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioBlob;
+        let audioUrl;
+        // let analyser, canvas, canvasCtx, bufferLength, dataArray;
+        let isRecording = false;
 
-    const micButton = document.getElementById('micButton');
-    const discardButton = document.getElementById('discardRecording');
-    const submitButton = document.getElementById('submitRecording');
-    const audioPlayer = document.getElementById('audioPlayer');
-    // const waveformCanvas = document.getElementById('waveform');
-    const actionButtons = document.getElementById('actionButtons');
-
-
-
-//     micButton.addEventListener('touchstart', async (e) => {
-//   console.log('Touch Start Event Fired');
-//   e.preventDefault();
-
-//   try {
-//     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-//     startRecording(stream); // Pass the stream to startRecording
-//   } catch (error) {
-//     console.error('Error accessing microphone:', error);
-//   }
-// });
-
-// function startRecording(stream) {
-//   if (isRecording) return; // Prevent multiple starts
-//   console.log('Recording Started');
-
-//   mediaRecorder = new MediaRecorder(stream);
-//   mediaRecorder.start();
-
-//   mediaRecorder.ondataavailable = (event) => {
-//     audioChunks.push(event.data);
-//   };
-
-//   mediaRecorder.onstop = () => {
-//     audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-//     audioUrl = URL.createObjectURL(audioBlob);
-//     console.log('Recording Stopped, Audio URL:', audioUrl);
-//   };
-
-//   isRecording = true;
-//   micButton.classList.add('recording');
-// }
-
- // Start recording on mousedown or touchstart
-micButton.addEventListener('mousedown', startRecording);
-micButton.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  console.log('Touch Start');
-  startRecording();
-});
-
-// Stop recording on mouseup or touchend
-micButton.addEventListener('mouseup', stopRecording);
-micButton.addEventListener('touchend', (e) => {
-  e.preventDefault();
-  console.log('Touch End');
-  stopRecording();
-});
-
-// Prevent default behavior for touch events
-micButton.addEventListener('touchmove', (e) => {
-  e.preventDefault();
-});
-
-// Prevent context menu on long press
-micButton.addEventListener('contextmenu', (e) => {
-  e.preventDefault();
-});
+        const micButton = document.getElementById('micButton');
+        const discardButton = document.getElementById('discardRecording');
+        const submitButton = document.getElementById('submitRecording');
+        const audioPlayer = document.getElementById('audioPlayer');
+        // const waveformCanvas = document.getElementById('waveform');
+        const actionButtons = document.getElementById('actionButtons');
 
 
-
-    // Start recording function
-    function startRecording() {
-        if (isRecording) return;
-        // Request permission to access the user's microphone
-        navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(stream => {
-                // Create MediaRecorder instance
-                mediaRecorder = new MediaRecorder(stream);
-
-                // Start recording
-                mediaRecorder.start();
-
-                // Capture audio data during recording
-                mediaRecorder.ondataavailable = event => {
-                    audioChunks.push(event.data); // Collect audio chunks
-                };
-
-                // When recording stops, create the audio blob and URL
-                mediaRecorder.onstop = () => {
-                    audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    audioUrl = URL.createObjectURL(audioBlob);
-                    audioPlayer.src = audioUrl;
-
-                    // Show the action buttons after recording is stopped
-                    actionButtons.style.display = 'block';
-                    audioPlayer.style.display = 'block'; // Show the audio player for playback
-                };
-
-            })
-            .catch(error => {
-                console.error('Error accessing microphone:', error);
-            });
-
-        isRecording = true;
-        micButton.classList.add('recording');
-    }
-
-    // Stop recording function
-    function stopRecording() {
-        if (mediaRecorder && isRecording) {
-            mediaRecorder.stop(); // Stop recording
-            isRecording = false;
-            micButton.classList.remove('recording');
-        }
-    }
-
-    // // Event listeners for the microphone button
-    // micButton.addEventListener('mousedown', () => {
-    //     startRecording();
-    // });
-
-    // micButton.addEventListener('mouseup', () => {
-    //     stopRecording();
-    // });
-
-    // micButton.addEventListener('touchstart', (e) => {
-    //     e.preventDefault(); // Prevent default touch behavior
-    //     startRecording();
-    // });
-
-    // micButton.addEventListener('touchend', () => {
-    //     stopRecording();
-    // });
-
-    // Discard the recording
-    discardButton.addEventListener('click', () => {
-        audioPlayer.src = ''; // Reset the audio player
-        actionButtons.style.display = 'none'; // Hide the action buttons
-        audioPlayer.style.display = 'none'; // Hide the audio player
-        audioChunks = []; // Clear the audio chunks
-    });
-
-    // Submit the recording (share it)
- // Submit the recording (share it)
-submitButton.addEventListener('click', async () => {
-    const categoryDropdown = document.getElementById('category');
-    const category = categoryDropdown.value;
-
-    if (!category) {
-        alert('Please select a category before sharing!');
-        return;
-    }
-
-    try {
-        // Create a FormData object to send the audio file and category
-        const formData = new FormData();
-        formData.append('audio', audioBlob, 'voice-note.wav');
-        formData.append('category', category);
-        formData.append('contentType', 'audio'); // Indicate that this is an audio submission
-
-        // Send the audio file to the server
-        const response = await fetch('/share', {
-            method: 'POST',
-            body: formData,
+        // Start recording on mousedown or touchstart
+        micButton.addEventListener('mousedown', startRecording);
+        micButton.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            console.log('Touch Start');
+            startRecording();
         });
 
-        const data = await response.json();
+        // Stop recording on mouseup or touchend
+        micButton.addEventListener('mouseup', stopRecording);
+        micButton.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            console.log('Touch End');
+            stopRecording();
+        });
 
-        if (data.success) {
-            alert('Recording shared successfully!');
-            // Reset the UI
-            canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-            audioPlayer.src = '';
-            actionButtons.style.display = 'none';
-            audioPlayer.style.display = 'none';
-            audioChunks = [];
-        } else {
-            alert('Failed to share the recording. Please try again.');
+        // Prevent default behavior for touch events
+        micButton.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        });
+
+        // Prevent context menu on long press
+        micButton.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+
+
+        // Start recording function
+        function startRecording() {
+            if (isRecording) return;
+            // Request permission to access the user's microphone
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    // Create MediaRecorder instance
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    // Start recording
+                    mediaRecorder.start();
+
+                    // Capture audio data during recording
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data); // Collect audio chunks
+                    };
+
+                    // When recording stops, create the audio blob and URL
+                    mediaRecorder.onstop = () => {
+                        audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        audioUrl = URL.createObjectURL(audioBlob);
+                        audioPlayer.src = audioUrl;
+
+                        // Show the action buttons after recording is stopped
+                        actionButtons.style.display = 'block';
+                        audioPlayer.style.display = 'block'; // Show the audio player for playback
+                    };
+
+                })
+                .catch(error => {
+                    console.error('Error accessing microphone:', error);
+                });
+
+            isRecording = true;
+            micButton.classList.add('recording');
         }
-    } catch (error) {
-        console.error('Error sharing recording:', error);
-        alert('An error occurred. Please try again later.');
-    }
-});
-</script>
+
+        // Stop recording function
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop(); // Stop recording
+                isRecording = false;
+                micButton.classList.remove('recording');
+            }
+        }
+
+        // Discard the recording
+        discardButton.addEventListener('click', () => {
+            audioPlayer.src = ''; // Reset the audio player
+            actionButtons.style.display = 'none'; // Hide the action buttons
+            audioPlayer.style.display = 'none'; // Hide the audio player
+            audioChunks = []; // Clear the audio chunks
+        });
+
+        // Submit the recording (share it)
+        // Submit the recording (share it)
+        submitButton.addEventListener('click', async () => {
+            const categoryDropdown = document.getElementById('category');
+            const category = categoryDropdown.value;
+
+            if (!category) {
+                alert('Please select a category before sharing!');
+                return;
+            }
+
+            try {
+                // Create a FormData object to send the audio file and category
+                const formData = new FormData();
+                formData.append('audio', audioBlob, 'voice-note.wav');
+                formData.append('category', category);
+                formData.append('contentType', 'audio'); // Indicate that this is an audio submission
+
+                // Send the audio file to the server
+                const response = await fetch('/share', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('Recording shared successfully!');
+                    // Reset the UI
+                    audioPlayer.src = '';
+                    actionButtons.style.display = 'none';
+                    audioPlayer.style.display = 'none';
+                    audioChunks = [];
+                } else {
+                    alert('Failed to share the recording. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error sharing recording:', error);
+                alert('An error occurred. Please try again later.');
+            }
+        });
+    </script>
 
     <script src="/js/app.js"></script>
     <% if (locals.theme) { %>

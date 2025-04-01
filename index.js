@@ -271,7 +271,7 @@ app.get("/dashboard", async (req, res) => {
     console.log(req.user);
     if (req.isAuthenticated()) {
         const userId = req.user.id; 
-        
+
         try {
             const userSecret = await db.query("SELECT secrets.id,secret,user_id FROM secrets JOIN users ON users.id = user_id WHERE user_id = $1 ORDER BY secrets.id ASC", [
                 req.user.id
@@ -297,9 +297,9 @@ app.get("/dashboard", async (req, res) => {
             const trendingGist = trendingQuery.rows
 
             if (secrets.length > 0) {
-                res.render("secrets", { heading: "My Dark Secret🤫", pGrph: null, secret: secrets, userAudio: audioFiles, trendingGist, userId: req.user.id, username: req.user.username, theme: userTheme, mode: mode, message, dashboard: true })
+                res.render("secrets", { heading: "My Gossips🤫", pGrph: null, secret: secrets, userAudio: audioFiles, trendingGist, userId: req.user.id, username: req.user.username, theme: userTheme, mode: mode, message, dashboard: true })
             } else {
-                res.render("secrets", { heading: ``, pGrph: "Welcome to the Safe Space, where you can find comfort and anonymous support. Feel free to share or read secrets in a judgment-free zone.", userId: req.user.id, username: req.user.username, theme: userTheme, mode: mode, message, dashboard: true })
+                res.render("secrets", { heading: ``, pGrph: "Welcome to the Safe Space, where you can find comfort and anonymous support. Feel free to be an Amebo (i.e share or read gists in a judgment-free zone).", trendingGist, userId: req.user.id, username: req.user.username, theme: userTheme, mode: mode, message, dashboard: true })
             }
         } catch (error) {
             console.log(error)
@@ -335,7 +335,7 @@ app.get("/chat", async(req, res) => {
         const mode = req.user.mode || "light"
         console.log(req.user)
         res.render("chat", {  theme: userTheme, mode: mode, username: req.user.username, userId: req.user.id })
-    } else {;d
+    } else {
         res.redirect("/login")
     }
 })
@@ -557,6 +557,26 @@ LIMIT 1;
 });
 
 
+app.get("/partial-submit", async (req, res) => {
+    if (req.isAuthenticated()) {
+        const userTheme = req.user.color || 'default';
+        const mode = req.user.mode || "light"
+        console.log(req.user)
+
+        const formData = {
+            submit: "Submit",
+            theme: userTheme,
+            mode: mode,
+            username: req.user.username,
+            userId: req.user.id
+        };
+
+        res.render("partials/submitForm", formData)
+    } else {
+        res.redirect("login")
+    }
+})
+
 
 
 app.get("/submit", async (req, res) => {
@@ -564,7 +584,16 @@ app.get("/submit", async (req, res) => {
         const userTheme = req.user.color || 'default';
         const mode = req.user.mode || "light"
         console.log(req.user)
-        res.render("submit", { submit: "Submit", theme: userTheme, mode: mode, username: req.user.username, userId: req.user.id })
+
+        const formData = {
+            submit: "Submit",
+            theme: userTheme,
+            mode: mode,
+            username: req.user.username,
+            userId: req.user.id
+        };
+
+        res.render("submit", formData)
     } else {
         res.redirect("login")
     }
@@ -590,7 +619,7 @@ app.get("/secret/:id", async (req, res) => {
 
         // Fetch secret and reactions in one query
         const secretQuery = `
-            SELECT secret, secrets.id, secrets.user_id, reactions 
+            SELECT secret, secrets.id, secrets.user_id, category, reactions 
             FROM secrets 
             JOIN users ON users.id = user_id 
             WHERE secrets.id = $1 
@@ -615,6 +644,14 @@ app.get("/secret/:id", async (req, res) => {
         const commentResult = await db.query(commentQuery, [requestedId]);
         const commentData = commentResult.rows;
 
+
+        const relatedQuery = `
+        SELECT secrets.id, secret, category, user_id FROM secrets JOIN users ON users.id = user_id WHERE category = $1 ORDER BY secrets.id DESC LIMIT 14
+        `
+
+        const relatedResult = await db.query(relatedQuery, [data.category])
+        const relatedGist = relatedResult.rows;
+
         // Render the page
         res.render("secret", {
             secret: data,
@@ -624,6 +661,7 @@ app.get("/secret/:id", async (req, res) => {
             totalComments: commentData.length || null,
             theme: userTheme,
             mode: mode,
+            relatedGist,
             reactions: JSON.stringify(data.reactions || {}),
         });
     } catch (error) {
@@ -1161,7 +1199,7 @@ app.post("/update", async (req, res) => {
 
 app.post("/delete", async (req, res) => {
     if (req.isAuthenticated()) {
-        const id = req.body.id
+        const id = req.body.secId
         try {
             await db.query("DELETE FROM comments WHERE secret_id= $1", [
                 id
@@ -1176,12 +1214,36 @@ app.post("/delete", async (req, res) => {
             ])
 
 
-            res.redirect("dashboard");
+            res.json({message: 'Deleted Successfully'});
         } catch (error) {
             console.log(error)
         }
     } else {
         res.redirect("login")
+    }
+});
+
+app.post("/audio-delete/:id", async(req, res) => {
+    if(req.isAuthenticated()){
+        const audioId = req.params.id
+        const userId = req.user.id
+
+        try {
+          const audio = await Audio.findOne({
+            where: { id: audioId, userId},
+          });
+
+          if(!audio) {
+            return res.status(404).json({error: 'Audio file not found'})
+          }
+
+          await audio.destroy();
+          res.json({message: 'Deleted Successfully'});
+        } catch(err){
+          console.error('Error deleting audio file:', err)
+          res.status(500).json({error: 'Failed to delete audio file'})
+
+        }
     }
 });
 

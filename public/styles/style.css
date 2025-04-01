@@ -239,6 +239,7 @@ body {
     color: var(--text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
 
   .container {
@@ -365,7 +366,7 @@ body {
   .scrolled {
     position: sticky !important;
     top: 0 !important;
-    background: var(--container-bg);
+    background: var(--container-bg) ;
     box-shadow: .2rem .2rem .5rem rgba(0, 0, 0, 0.5);
 }
 
@@ -891,12 +892,18 @@ body {
   width: 101%;
   height: 102%;
   border-radius: 30px;
-  background: linear-gradient(
+  /* background: linear-gradient(
       var(--rotate),
       #5ddcff,
   #3c67e3 43%,
   #4e00c2
-  );
+  ); */
+  background: linear-gradient(
+    var(--rotate),
+    rgb(255, 77, 0),
+rgb(255, 162, 0) 43%,
+rgba(255, 0, 0, 0.907)
+);
   position: absolute;
   z-index: -1;
   top: -1%;
@@ -909,12 +916,18 @@ body {
   /* width: 101%;
   height: 102%; */
   border-radius: 30px;
-  background: linear-gradient(
+  /* background: linear-gradient(
       var(--rotate),
       #5ddcff,
   #3c67e3 43%,
   #4e00c2
-  );
+  ); */
+  background: linear-gradient(
+    var(--rotate),
+    rgb(255, 77, 0),
+rgb(255, 162, 0) 43%,
+rgba(255, 0, 0, 0.907)
+);
   position: absolute;
   z-index: -1;
   top: calc(var(--card-height) /6);
@@ -1110,25 +1123,35 @@ button.close-btn:hover {
     margin-top: .5rem;
   }
 
-  #dashboard .btn {
-    /* position: fixed;
-    bottom: 5rem;
-    right: 28%; */
-    margin: 1rem auto;
+  /* #dashboard .create {
     display: flex;
-    justify-self: flex-end;
+    justify-self: center;
     align-self: center;
+    background: none;
+    padding: 0;
+    border: none;
+    background: none;
+  } */
+
+  #dashboard .btn {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    margin: 1rem auto;
     color: #000;
     border-radius: 50%;
     font-size: 1.5rem;
     font-weight: bold;
     box-shadow: .2rem .2rem .5rem rgba(0, 0, 0, 0.3);
-  }
-
-  #dashboard a {
-    padding: .5rem .75rem !important; 
+    padding: 1rem 1.5rem ;
     color: var(--text-color);
   }
+
+  /* #dashboard a {
+    display: block;
+  
+
+  } */
 
 
   .server-msg {
@@ -1167,9 +1190,6 @@ button.close-btn:hover {
 }
 
 .audio-item {
-  margin-bottom: 20px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
@@ -1311,18 +1331,60 @@ audio {
   display: none;
 }
 
-#trending {
+#trending 
+#related-gist{
   margin: 1rem 0;
 }
 
+#related-gist {
+ margin-top: 1rem;
+ /* font-family: "Gloria Hallelujah", cursive; */
+}
 
-.trending #secrets{
+
+.trending #secrets,
+.related #secrets{
   display: flex;
  align-items: center;
  flex-direction: row;
  gap: 10px;
  width: 100%;
  overflow-x: scroll;
+}
+
+.related #secrets {
+  transform: translate(0);
+  animation: showcase 20s .2s infinite;
+  overflow-x: hidden !important;
+  z-index: -1;
+}
+
+@keyframes showcase {
+
+    0% {
+      visibility: visible;
+    transform: translateX(95%);
+  }
+
+  25% {
+     transform: translateX(0);
+  }
+
+
+  50%{
+    transform: translateX(-100%);
+  }
+
+  75% {
+    transform: translateX(0);
+}
+
+100% {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(95%);
+}
+
 }
 
 
@@ -1337,16 +1399,18 @@ audio {
 
 }
 
-.trending small{
+.trending small,
+.related small{
   font-size: .9rem;
   position: absolute;
   right: 2rem;
 }
 
-.trending .read {
+.trending .read,
+.related small {
   position: absolute;
-  bottom: .7rem;
-  right: 2rem;
+  bottom: 1.5rem;
+  right: 1.5rem;
   margin-top: .25rem;
 }
 
@@ -1355,6 +1419,8 @@ audio {
   justify-content: flex-end;
   gap: 10px;
 }
+
+
 
 .controls button {
   background: var(--secondary-color);
@@ -1406,6 +1472,8 @@ audio {
     color: var(--primary-color);
   }
 
+
+
   #toggleVisibility{
    background: none;
    border: none;
@@ -1416,7 +1484,7 @@ audio {
   }
 
   .tag {
-    border-radius: 0 30px 0 30px;
+    border-radius: 30px 30px 0 30px;
     position: absolute;
     top: 0;
     left: 0;
@@ -1554,8 +1622,13 @@ audio {
       font-size: .8rem;
     } */
 
+
+    .secret {
+      position: relative !important;
+    }
+
   .card {
-    position: relative;
+ 
     color: var(--text-color);
     /* background-color: var(--container-bg); */
     margin-bottom: 1.2rem;
@@ -1571,6 +1644,7 @@ audio {
     transition: opacity 0.5s ease, filter 0.5s ease;
     overflow: hidden;
     font-family: "Gloria Hallelujah", cursive;
+    z-index: 0;
   }
 
   .card.sand {
@@ -1629,6 +1703,15 @@ audio {
 
   .card:hover {
     box-shadow: -0.2rem -0.2rem 1.2rem rgba(0, 0, 0, 0.3);
+  }
+
+  .related-gist .secrets{
+  display: flex;
+ align-items: center;
+ flex-direction: row;
+ gap: 10px;
+ width: 100%;
+ overflow-x: scroll;
   }
 
   .no-message {
@@ -2007,8 +2090,10 @@ audio {
 
 #update {
   position: absolute;
-  bottom: .5rem;
+  top: -1.25rem;
   right: 1rem;
+  z-index: 10 !important;
+  gap: 10px;
 }
 
 #update button i {
@@ -2052,19 +2137,19 @@ audio {
 }
 
 .category-section {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .category-label {
   display: block;
-  font-size: 1.1rem !important;
+  font-size: 1.2rem !important;
   color: var(--text-color);
 }
 
 .category-dropdown {
   /* width: 100%; */
   padding: 0.8rem;
-  font-size: .8rem !important;
+  font-size: .9rem !important;
   color: var(--text-color);
   /* color: #fff; */
   background: var(--container-bg);
